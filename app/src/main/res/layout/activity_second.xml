@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="35dp"
     android:paddingTop="100dp"
-    android:paddingBottom="265dp"
+    android:paddingBottom="215dp"
     android:paddingRight="40dp"
     tools:context=".SecondActivity">
 

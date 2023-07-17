@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#A20EBC</color>
     <color name="rose">#DCAE96</color>
+    <color name="blue">#0912ED</color>
+    <color name="red">#FF0000</color>
+    <color name="cyan">#00CCFF</color>
 </resources>
