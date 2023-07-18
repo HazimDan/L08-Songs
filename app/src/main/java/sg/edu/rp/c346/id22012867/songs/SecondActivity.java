@@ -69,8 +69,6 @@ public class SecondActivity extends AppCompatActivity {
                         filteredSong.add(songs.get(i));
                     }
                 }
-                //ArrayAdapter<Song> aaFilteredSongs = new ArrayAdapter<>(DisplayActivity.this, android.R.layout.simple_list_item_1, filteredSongList);
-                //lvResults.setAdapter(aaFilteredSongs);
                 aaFiltered = new CustomAdapter(SecondActivity.this, R.layout.row, filteredSong);
                 lvSongs.setAdapter(aaFiltered);
             }
