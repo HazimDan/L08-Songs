@@ -24,7 +24,7 @@ public class SecondActivity extends AppCompatActivity {
     //ArrayAdapter<Song> aaNewSongs;
     ArrayList<Song> songs;
     ArrayList<Song> newSongs;
-    ArrayList<Song> filteredSongList;
+    ArrayList<Song> filteredSong;
 
     Spinner spnSongs;
     Button btn5Stars;
@@ -51,7 +51,7 @@ public class SecondActivity extends AppCompatActivity {
 
         ArrayList<String> years = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 1900; i <= thisYear; i++) {
+        for (int i = 2000; i <= thisYear; i++) {
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
@@ -63,14 +63,15 @@ public class SecondActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedYear = parent.getItemAtPosition(position).toString();
 
-                filteredSongList = new ArrayList<>();
+                filteredSong = new ArrayList<>();
                 for (int i = 0; i < songs.size(); i++) {
                     if (String.valueOf(songs.get(i).getYear()).equals(selectedYear)) {
-                        filteredSongList.add(songs.get(i));
+                        filteredSong.add(songs.get(i));
                     }
                 }
-
-                aaFiltered = new CustomAdapter(SecondActivity.this, R.layout.row, filteredSongList);
+                //ArrayAdapter<Song> aaFilteredSongs = new ArrayAdapter<>(DisplayActivity.this, android.R.layout.simple_list_item_1, filteredSongList);
+                //lvResults.setAdapter(aaFilteredSongs);
+                aaFiltered = new CustomAdapter(SecondActivity.this, R.layout.row, filteredSong);
                 lvSongs.setAdapter(aaFiltered);
             }
 
