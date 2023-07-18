@@ -24,11 +24,11 @@ public class SecondActivity extends AppCompatActivity {
     //ArrayAdapter<Song> aaNewSongs;
     ArrayList<Song> songs;
     ArrayList<Song> newSongs;
-    ArrayList<Song> filteredSongs;
+    ArrayList<Song> filteredSongList;
 
     Spinner spnSongs;
     Button btn5Stars;
-    CustomAdapter adapter, aaNewSongs;
+    CustomAdapter adapter, aaNewSongs, aaFiltered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,27 +49,34 @@ public class SecondActivity extends AppCompatActivity {
         //lvSongs.setAdapter(aaSongs);
         lvSongs.setAdapter(adapter);
 
-// Step 1: Create ArrayAdapter for the Spinner
-        ArrayAdapter<Integer> yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getUniqueYears(songs));
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnSongs.setAdapter(yearAdapter);
+        ArrayList<String> years = new ArrayList<String>();
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 1900; i <= thisYear; i++) {
+            years.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
 
-        // Step 2: Set OnItemSelectedListener for the Spinner
+        spnSongs.setAdapter(adapter);
+
         spnSongs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int selectedYear = (Integer) parent.getItemAtPosition(position);
-                if (selectedYear == 0) {
-                    adapter.clear();
-                    adapter.addAll(songs);
-                } else {
-                    filterSongsByYear(selectedYear);
+                String selectedYear = parent.getItemAtPosition(position).toString();
+
+                filteredSongList = new ArrayList<>();
+                for (int i = 0; i < songs.size(); i++) {
+                    if (String.valueOf(songs.get(i).getYear()).equals(selectedYear)) {
+                        filteredSongList.add(songs.get(i));
+                    }
                 }
+
+                aaFiltered = new CustomAdapter(SecondActivity.this, R.layout.row, filteredSongList);
+                lvSongs.setAdapter(aaFiltered);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
+
             }
         });
         btn5Stars.setOnClickListener(new View.OnClickListener() {
@@ -97,28 +104,6 @@ public class SecondActivity extends AppCompatActivity {
         });
 
     }
-    // Helper method to get unique years from the list of songs
-    private ArrayList<Integer> getUniqueYears(ArrayList<Song> songs) {
-        ArrayList<Integer> years = new ArrayList<>();
-        for (Song song : songs) {
-            if (!years.contains(song.getYear())) {
-                years.add(song.getYear());
-            }
-        }
-        return years;
-    }
 
-    // Helper method to filter songs by the selected year
-    private void filterSongsByYear(int selectedYear) {
-        filteredSongs = new ArrayList<>();
-        for (Song song : songs) {
-            if (song.getYear() == selectedYear) {
-                filteredSongs.add(song);
-            }
-        }
-        adapter.clear(); // Clear the existing adapter data
-        adapter.addAll(filteredSongs); // Add the filtered songs to the adapter
-        adapter.notifyDataSetChanged(); // Notify the ListView to update the display
-    }
 }
 
